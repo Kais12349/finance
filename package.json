@@ -1,0 +1,51 @@
+{
+  "name": "global-tech-finance-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "dev:lan": "next dev --hostname 0.0.0.0 --port 3000",
+    "public:tunnel": "lt --port 3000 --local-host 127.0.0.1",
+    "public:cloudflare": "cloudflared tunnel --url http://localhost:3000 --no-autoupdate",
+    "public:ssh": "ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -R 80:127.0.0.1:3000 nokey@localhost.run",
+    "deploy:vercel": "vercel --prod --yes",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:init": "node scripts/init-db.mjs",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx scripts/seed.ts",
+    "fetch": "tsx scripts/fetch-news.ts",
+    "report": "tsx scripts/generate-daily-report.ts",
+    "snapshot:export": "tsx scripts/export-public-snapshot.ts",
+    "update:daily": "tsx scripts/daily-update.ts",
+    "update:public": "npm run update:daily && npm run snapshot:export"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
+    "next": "16.2.6",
+    "openai": "^6.37.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "rss-parser": "^3.13.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "localtunnel": "^2.0.2",
+    "prisma": "5.22.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "vercel": "^53.3.1"
+  }
+}

@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model NewsArticle {
+  id                 String   @id @default(cuid())
+  title              String
+  source             String
+  sourceUrl          String   @unique
+  publishedAt        DateTime
+  fetchedAt          DateTime
+  summaryZh          String
+  originalSummary    String?
+  category           String
+  importance         String
+  credibility        String
+  affectedAreas      String
+  beijingTime        String
+  newYorkTime        String
+  losAngelesTime     String
+  londonTime         String
+  verificationStatus String
+  rawContent         String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([publishedAt])
+  @@index([category])
+  @@index([source])
+}
+
+model Source {
+  id              String  @id @default(cuid())
+  name            String  @unique
+  url             String
+  type            String
+  credibilityBase String
+  enabled         Boolean @default(true)
+}
+
+model DailyReport {
+  id        String   @id @default(cuid())
+  date      String   @unique
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model KeywordWatch {
+  id       String  @id @default(cuid())
+  keyword  String  @unique
+  category String?
+  enabled  Boolean @default(true)
+}
